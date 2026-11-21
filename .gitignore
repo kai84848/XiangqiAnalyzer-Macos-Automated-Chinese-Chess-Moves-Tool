@@ -1,0 +1,15 @@
+build/
+build-*/
+安装包/
+*.app/
+*.dmg
+.DS_Store
+._*
+CMakeUserPresets.json
+third_party/downloads/
+third_party/qt-*/
+third_party/onnxruntime/
+
+# Download Pikafish and its NNUE weights separately; see README.md.
+third_party/pikafish/Pikafish-*
+third_party/pikafish/*.nnue
