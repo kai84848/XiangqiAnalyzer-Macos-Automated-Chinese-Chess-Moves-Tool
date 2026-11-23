@@ -13,3 +13,12 @@ third_party/onnxruntime/
 # Download Pikafish and its NNUE weights separately; see README.md.
 third_party/pikafish/Pikafish-*
 third_party/pikafish/*.nnue
+
+# Local icon rendering tools and intermediate exports. Keep only the final
+# PNG and ICNS files under resources/icon/ for building the application.
+tools/render_app_icon.cpp
+render_app_icon
+XiangqiAnalyzer.iconset/
+icon-verified.png
+bundled-icon-decoded.png
+finder-resolved-icon*.png
