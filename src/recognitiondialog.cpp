@@ -103,7 +103,7 @@ RecognitionDialog::RecognitionDialog(QWidget *parent)
     auto *boardTitle = new QLabel(QStringLiteral("识别结果 · 人工校对"), boardPanel);
     boardTitle->setObjectName(QStringLiteral("sectionTitle"));
     auto *rotateButton = new QPushButton(QStringLiteral("旋转 180°"), boardPanel);
-    rotateButton->setToolTip(QStringLiteral("图片上下颠倒时，旋转识别后的棋子布局"));
+    rotateButton->setToolTip(QStringLiteral("仅翻转棋盘显示方向，不改变棋子坐标和识别结果"));
     boardHeader->addWidget(boardTitle);
     boardHeader->addStretch();
     boardHeader->addWidget(rotateButton);
@@ -453,17 +453,7 @@ void RecognitionDialog::setStatus(const QString &text, bool error)
 
 void RecognitionDialog::rotateRecognizedBoard()
 {
-    Position rotated;
-    rotated.redTurn = m_position.redTurn;
-    rotated.halfmoveClock = m_position.halfmoveClock;
-    rotated.fullmoveNumber = m_position.fullmoveNumber;
-    for (int row = 0; row < 10; ++row)
-        for (int col = 0; col < 9; ++col)
-            rotated.setPiece(Position::square(9 - row, 8 - col), m_position.piece(row, col));
-    m_position = rotated;
-    QVector<int> rotatedReview;
-    for (int square : m_board->reviewSquares())
-        rotatedReview.append(Position::square(9 - Position::rowOf(square), 8 - Position::colOf(square)));
-    m_board->setPosition(m_position);
-    m_board->setReviewSquares(rotatedReview);
+    // This control changes only the viewer orientation. Rotating the Position
+    // itself would move elephants, advisers and kings out of their legal areas.
+    m_board->setFlipped(!m_board->flipped());
 }

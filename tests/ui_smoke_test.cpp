@@ -320,8 +320,15 @@ private slots:
                 rotate = button;
         QVERIFY(rotate);
         QTest::mouseClick(rotate, Qt::LeftButton);
-        QCOMPARE(board->position().piece(Position::square(9, 8)), Piece::make(false, Piece::Rook));
+        QVERIFY(board->flipped());
+        QCOMPARE(board->position().toFen(), Position::initial().toFen());
+        QCOMPARE(board->position().piece(Position::square(0, 0)), Piece::make(false, Piece::Rook));
         QTest::mouseClick(rotate, Qt::LeftButton);
+        QVERIFY(!board->flipped());
+        QCOMPARE(board->position().toFen(), Position::initial().toFen());
+        // Applying while visually flipped must still export the original position.
+        QTest::mouseClick(rotate, Qt::LeftButton);
+        QVERIFY(board->flipped());
         QCOMPARE(board->position().toFen(), Position::initial().toFen());
         QTest::qWait(100);
         QVERIFY(dialog.grab().save(QStringLiteral(UI_SCREENSHOT_PATH).replace(QStringLiteral(".png"), QStringLiteral("-recognition.png"))));
