@@ -78,7 +78,9 @@ target_compile_definitions(XiangqiAnalyzer PRIVATE DEFAULT_PIKAFISH_PATH="${DEFA
     RECOGNITION_STYLE_REFERENCE="${CMAKE_CURRENT_SOURCE_DIR}/resources/recognition/wooden-initial.png")
 target_link_libraries(XiangqiAnalyzer PRIVATE Qt6::Widgets Qt6::Concurrent onnxruntime)
 if(APPLE)
-    target_sources(XiangqiAnalyzer PRIVATE src/macautomation.h src/macautomation.mm)
+    set(XIANGQI_APP_ICON "${CMAKE_CURRENT_SOURCE_DIR}/resources/icon/XiangqiAnalyzer.icns")
+    set_source_files_properties("${XIANGQI_APP_ICON}" PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+    target_sources(XiangqiAnalyzer PRIVATE src/macautomation.h src/macautomation.mm "${XIANGQI_APP_ICON}")
     target_link_libraries(XiangqiAnalyzer PRIVATE
         "-framework CoreGraphics"
         "-framework ApplicationServices"
@@ -91,6 +93,7 @@ set_target_properties(XiangqiAnalyzer PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER "com.xiangqi.analyzer"
     MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
     MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}"
+    MACOSX_BUNDLE_ICON_FILE "XiangqiAnalyzer.icns"
     BUILD_WITH_INSTALL_RPATH TRUE
     INSTALL_RPATH "@executable_path/../Frameworks"
 )
